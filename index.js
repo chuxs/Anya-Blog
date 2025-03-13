@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import {v4 as uuidv4} from "uuid";
+import serverless from "serverless-http";
 
 const app = express();
 const port = process.env.PORT || 3000;;
@@ -42,3 +43,6 @@ app.post("/blog", (req, res) => {
     }
     console.log(`${post, postId}`);
 });
+
+module.exports = app;
+module.exports.handler = serverless(app);
