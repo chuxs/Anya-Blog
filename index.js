@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import {v4 as uuidv4} from "uuid";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;;
 // const router = express.Router();
 
 let posts = [];
