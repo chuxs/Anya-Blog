@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Lilita+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* Reset and base styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Poppins';
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Logo */
+.logo {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.logo a img{
+    height: 2rem;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: #fff;
+    position: fixed;
+    width: 100%;
+}
+
+.hero {
+    text-align: center;
+    padding: 8rem 2rem;
+    background: #f9f9f9;
+    color: black;
+    padding-bottom: 55px;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.cta-btn{
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    background: #007bff;
+    font-size: 1.1rem;
+    margin-top: 2rem;
+}
+
+.cta-btn a{
+    color: white;
+    text-decoration: none;
+    font-family: 'Poppins';
+}
+
+/* Features section */
+.features {
+    padding: 4rem 2rem;
+}
+
+.features h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    padding: 2rem;
+    background: #f9f9f9;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    color: black;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.feature-card p{
+    font-size: small;
+}
+
+.links{
+ list-style: none;
+}
+
+.writePost {
+    background: transparent;
+    border: none;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    font-family: 'Poppins';
+}
+.writePost:focus {
+    outline: none;
+}
+
+.writePost p{
+    font-size: 1rem;
+}
+
+.writePost h3{
+    font-size: 1.2rem;
+}
+
+
+/* Blog contnet input */
+.titleTextBox{
+    width: 100%;
+    height: 5px;
+    vertical-align: top;
+    padding-top: 30px; 
+    text-align: left;
+    font-family: 'Poppins';
+    margin-bottom: 20px;
+}
+
+.textbox{
+    width: 100%;
+    height: 500px;
+    vertical-align: top;
+    text-align: left;
+    padding-top: 30px; 
+    font-family: 'Poppins';
+}
+
+
+/* Submit post */
+.cta-btn-submit{
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    background: #007bff;
+    font-size: 1.1rem;
+    margin-top: 2rem;
+    color: white;
+    text-decoration: none;
+    font-family: 'Poppins';
+}
+
+/* Open generated link */
+
+.openpost{
+    cursor: pointer;
+    font-family: 'Poppins';
+    background: transparent;
+    border: none;    
+    background: transparent;
+    color: #007bff;
+    font-size: 1rem;
+}
+
+.listHorizontal{
+        display: flex;
+        align-items: center;
+        gap: 10px; /* Adjust the gap between items as needed */
+}
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+}
