@@ -44,5 +44,4 @@ app.post("/blog", (req, res) => {
     console.log(`${post, postId}`);
 });
 
-module.exports = app;
-module.exports.handler = serverless(app);
+export const handler = serverless(app);
