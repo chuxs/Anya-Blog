@@ -17,7 +17,8 @@ app.listen(port, () => {
 app.use(express.static("Public"));
 
 app.get("/", (req, res) => {
-    res.render("index.ejs");
+    // res.render("index.ejs");
+    console.log("Home Page");
 });
 
 app.post("/submit", (req, res) => {
