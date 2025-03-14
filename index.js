@@ -1,21 +1,25 @@
 import express from "express";
 import bodyParser from "body-parser";
 import {v4 as uuidv4} from "uuid";
+import path from "path";
+import { fileURLToPath } from "url";
 import serverless from "serverless-http";
 
 const app = express();
-const port = process.env.PORT || 3000;;
+const port = process.env.PORT || 3000;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 // const router = express.Router();
 
 let posts = [];
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(express.static(path.join(__dirname, "Public")));
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
-
-app.use(express.static("Public"));
 
 app.get("/", (req, res) => {
     // res.render("index.ejs");
@@ -44,4 +48,7 @@ app.post("/blog", (req, res) => {
     console.log(`${post, postId}`);
 });
 
-export const handler = serverless(app);
+// export const handler = serverless(app);
+export default {
+    app
+  };
