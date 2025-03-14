@@ -23,7 +23,7 @@ app.listen(port, () => {
 
 app.get("/", (req, res) => {
     // res.render("index.ejs");
-    console.log("Home Page");
+    res.send("Welcome to Anya Blog"); 
 });
 
 app.post("/submit", (req, res) => {
