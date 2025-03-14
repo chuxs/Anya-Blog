@@ -30,10 +30,12 @@
                     <i class="fa-regular fa-newspaper"></i>
                     <h3>Your Posts</h3>
                     <ul class="links">
+
                        <% if (locals.title){%>
                             <!--  posts.forEach( function(post){  -->
                             <% for(var i = 0; i < posts.length; i++){ %>
-                                 <li class="listOfPosts listHorizontal">
+
+                                <li class="listOfPosts listHorizontal">
                                     <form action="/edit" method="POST">
                                         <button type="submit" class="editButton">
                                             <i class="fa-regular fa-pen-to-square"></i>
@@ -58,7 +60,7 @@
                                 
                             <% } else { %>
                                 <li class="listOfPosts">You have no posts yet</li>
-                            <% } %>
+                        <% } %>
 
                     </ul>
                 </div>
@@ -67,13 +69,13 @@
         </section>   
 
         <section class="features" id="write">
-          <div class="feature-grid">
-            <form action="/submit" method="POST" class="blog-content">
-                <input class="feature-card titleTextBox" placeholder="Title of your Post" name="postTitle" > </input>
-                <textarea placeholder="Start Typing" class="feature-card textbox" name="postContent"></textarea>
-                <button type="submit" class="cta-btn-submit">Submit</button>
-            </form>
-          </div>
+            <div class="feature-grid">
+                <form action="/submit" method="POST" class="blog-content">
+                   <input class="feature-card titleTextBox" placeholder="Title of your Post" name="postTitle" > </input>
+                   <textarea placeholder="Start Typing" class="feature-card textbox" name="postContent"></textarea>
+                   <button type="submit" class="cta-btn-submit">Submit</button>
+                </form>
+            </div>
         </section>  
 
     </main>
