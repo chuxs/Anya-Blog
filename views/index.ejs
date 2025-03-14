@@ -34,7 +34,11 @@
                             <!--  posts.forEach( function(post){  -->
                             <% for(var i = 0; i < posts.length; i++){ %>
                                  <li class="listOfPosts listHorizontal">
-                                    <form action="/edit" method="POST"> <i class="fa-regular fa-pen-to-square"></i> </form>
+                                    <form action="/edit" method="POST">
+                                        <button type="submit" class="editButton">
+                                            <i class="fa-regular fa-pen-to-square"></i>
+                                        </button> 
+                                    </form>
 
                                     <form action="/blog" method="POST">   
                                     <input name="postId" type="hidden" value="<%= posts[i].randomId %>">
@@ -43,7 +47,11 @@
                                     <button type="submit" class="openpost"> <%= posts[i].title %> </button> 
                                     </form>
 
-                                    <form action="/delete" method="POST"> <i class="fa-regular fa-trash-can"></i> </form>
+                                    <form action="/delete" method="POST">
+                                        <button type="submit" class="editButton deleteColor">
+                                            <i class="fa-regular fa-trash-can"></i>
+                                        </button> 
+                                    </form>
                                 </li>
 
                             <% }; %>
