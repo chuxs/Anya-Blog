@@ -22,12 +22,12 @@ app.listen(port, () => {
 });
 
 app.get("/", (req, res) => {
-    res.render("index.ejs");
+    res.render("index");
     // res.send("Welcome to Anya Blog");
 });
 
 app.post("/submit", (req, res) => {
-    
+
     // const randomVar = Math.floor(Math.random() * (40 - 12 + 1)) + 12; 
     const randomVar = uuidv4();
 
