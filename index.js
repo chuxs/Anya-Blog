@@ -25,7 +25,7 @@ app.listen(port, () => {
 });
 
 app.get("/", (req, res) => {
-    res.render("index");
+    res.render("index.ejs");
     // res.send("Welcome to Anya Blog");
 });
 
