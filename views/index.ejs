@@ -50,6 +50,7 @@
                                     </form>
 
                                     <form action="/delete" method="POST">
+                                        <input name="postId" type="hidden" value="<%= posts[i].randomId %>">
                                         <button type="submit" class="editButton deleteColor">
                                             <i class="fa-regular fa-trash-can"></i>
                                         </button> 

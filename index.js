@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import {v4 as uuidv4} from "uuid";
 import path from "path";
 import { fileURLToPath } from "url";
-import serverless from "serverless-http";
+// import serverless from "serverless-http";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -49,6 +49,26 @@ app.post("/blog", (req, res) => {
         res.send("404 Not Found"); 
     }
     console.log(`${post, postId}`);
+});
+
+app.post("/delete", (req, res) => {
+    const postId = req.body["postId"];
+    const post = posts.find(p => p.randomId === postId);
+    if (post) {
+        // console.log({ blogtitle: post.title, blogcontent: post.content});
+        // posts.splice({ blogtitle: post.title, blogcontent: post.content});
+
+        posts.splice(post);
+
+        console.log(postId);
+        console.log(posts);
+        console.log(post);
+        // posts.splice(postId, 1);
+        // res.render("index.ejs", { posts: posts });
+    }else{
+        console.log("Post not found");
+    }
+
 });
 
 // export const handler = serverless(app);
