@@ -53,18 +53,18 @@ app.post("/blog", (req, res) => {
 
 app.post("/delete", (req, res) => {
     const postId = req.body["postId"];
-    const post = posts.find(p => p.randomId === postId);
-    if (post) {
+    const post = posts.findIndex(p => p.randomId === postId);
+    if (post !== -1) {
         // console.log({ blogtitle: post.title, blogcontent: post.content});
         // posts.splice({ blogtitle: post.title, blogcontent: post.content});
 
-        posts.splice(post);
+        posts.splice(post, 1);
 
         console.log(postId);
         console.log(posts);
         console.log(post);
         // posts.splice(postId, 1);
-        // res.render("index.ejs", { posts: posts });
+        res.render("index.ejs", {adjustedPosts: posts });
     }else{
         console.log("Post not found");
     }
