@@ -46,7 +46,7 @@ app.post("/blog", (req, res) => {
     if (post) {
         res.render("blogpost.ejs", { blogtitle: post.title, blogcontent: post.content});
     } else {
-        res.send("404 Not Found"); 
+        res.send("404 Error Not Found"); 
     }
     console.log(`${post, postId}`);
 });
