@@ -64,7 +64,7 @@ app.post("/delete", (req, res) => {
         console.log(posts);
         console.log(post);
         // posts.splice(postId, 1);
-        res.render("index.ejs", {adjustedPosts: posts });
+        res.render("index.ejs", {posts: posts });
     }else{
         console.log("Post not found");
     }
