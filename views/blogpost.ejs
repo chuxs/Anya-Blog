@@ -8,6 +8,7 @@
 
     <main>
         <section id="home" class="hero">
+            
             <h1><%= blogtitle %></h1>
             <p class="blog-content"> <%= blogcontent %></p>
             <button type="submit" onclick="changeButton()" id="editButton" class="cta-btn-submit">Edit</button>
@@ -15,6 +16,7 @@
             <div class="feature-grid">
 
                 <form action="/edit" method="POST" class="blog-content">
+                   <input class="visibility:hidden" name="idEdit" value="<%= blogId %>">
 
                    <textarea placeholder="Start Typing" class="feature-card textbox" id="contentToEdit"
                       style="visibility:hidden;" name="editContent"> <%= blogcontent %> </textarea>

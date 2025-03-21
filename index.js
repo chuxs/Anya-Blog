@@ -44,7 +44,7 @@ app.post("/blog", (req, res) => {
     const postId = req.body["postId"];
     const post = posts.find(p => p.randomId === postId);
     if (post) {
-        res.render("blogpost.ejs", { blogtitle: post.title, blogcontent: post.content});
+        res.render("blogpost.ejs", { blogId:postId, blogtitle: post.title, blogcontent: post.content});
     } else {
         res.send("404 Error Not Found"); 
     }
@@ -69,8 +69,9 @@ app.post("/delete", (req, res) => {
 });
 
 app.post("/edit", (req, res)=>{
+ const editID = res.body["idEdit"]; 
+ const post = posts.findIndex(p => p.randomId === editID);
 
-    
 });
 
 // export const handler = serverless(app);
