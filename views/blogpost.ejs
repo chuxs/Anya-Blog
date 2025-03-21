@@ -9,10 +9,27 @@
     <main>
         <section id="home" class="hero">
             <h1><%= blogtitle %></h1>
-            <p> <%= blogcontent %></p>
+            <p class="blog-content"> <%= blogcontent %></p>
+            <button type="submit" onclick="changeButton()" id="editButton" class="cta-btn-submit">Edit</button>
+
+            <div class="feature-grid">
+
+                <form action="/edit" method="POST" class="blog-content">
+
+                   <textarea placeholder="Start Typing" class="feature-card textbox" id="contentToEdit"
+                      style="visibility:hidden;" name="editContent"> <%= blogcontent %> </textarea>
+
+                    <button type="submit" id="updateButton" style="visibility:hidden;"
+                      class="cta-btn-submit">Update your edited blog post</button>
+
+                </form>
+
+            </div>
+            
         </section>
     </main>
-
+    <!-- External JavaScript -->
+    <script src="/js/script.js"></script>
  </body>
 
 </html>
