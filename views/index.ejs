@@ -31,22 +31,22 @@
                     <h3>Your Posts</h3>
                     <ul class="links">
 
-                       <!--  if (locals.req.session.blogs){%> -->
-                       <% if (req.session.blogs){%>
+                        <% if (locals.posts){%>
+                       <!-- < if (req.session.blogs){%> -->
 
                             <% for(var i = 0; i < req.session.blogs.length; i++){ %>
 
                                 <li class="listOfPosts listHorizontal">
 
                                     <form action="/blog" method="POST">   
-                                    <input name="postId" type="hidden" value="<%= req.session.blogs[i].randomId %>">
-                                    <input name="titleHolder" id="dataID" type="hidden" value="<%= req.session.blogs[i].title %>">
-                                    <input name="contentHolder" id="dataID" type="hidden" value="<%= req.session.blogs[i].content %>">
-                                    <button type="submit" class="openpost"> <%= req.session.blogs[i].title %> </button> 
+                                    <input name="postId" type="hidden" value="<%= posts[i].randomId %>">
+                                    <input name="titleHolder" id="dataID" type="hidden" value="<%= posts[i].title %>">
+                                    <input name="contentHolder" id="dataID" type="hidden" value="<%= posts[i].content %>">
+                                    <button type="submit" class="openpost"> <%= posts[i].title %> </button> 
                                     </form>
 
                                     <form action="/delete" method="POST">
-                                        <input name="postId" type="hidden" value="<%= req.session.blogs[i].randomId %>">
+                                        <input name="postId" type="hidden" value="<%= posts[i].randomId %>">
                                         <button type="submit" class="editButton deleteColor">
                                             <i class="fa-regular fa-trash-can"></i>
                                         </button> 
