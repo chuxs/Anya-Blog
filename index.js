@@ -69,9 +69,19 @@ app.post("/delete", (req, res) => {
 });
 
 app.post("/edit", (req, res)=>{
- const editID = res.body["idEdit"]; 
- const post = posts.findIndex(p => p.randomId === editID);
+ const editID = req.body["idEdit"]; 
+ const postIndex = posts.findIndex(p => p.randomId === editID);
 
+ if(postIndex !== -1){
+    posts[postIndex].content = req.body["editContent"];
+
+    res.render("blogpost.ejs", { blogId: editID, blogtitle: posts[postIndex].title, blogcontent: posts[postIndex].content});
+
+    console.log(blogId, blogtitle, blogcontent);
+ }
+ else{
+
+ }
 });
 
 // export const handler = serverless(app);

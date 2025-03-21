@@ -16,10 +16,10 @@
             <div class="feature-grid">
 
                 <form action="/edit" method="POST" class="blog-content">
-                   <input class="visibility:hidden" name="idEdit" value="<%= blogId %>">
+                   <input name="idEdit" type="hidden"  value="<%= blogId %>">
 
-                   <textarea placeholder="Start Typing" class="feature-card textbox" id="contentToEdit"
-                      style="visibility:hidden;" name="editContent"> <%= blogcontent %> </textarea>
+                   <textarea name="editContent" placeholder="Start Typing" class="feature-card textbox" id="contentToEdit"
+                      style="visibility:hidden;" > <%= blogcontent %> </textarea>
 
                     <button type="submit" id="updateButton" style="visibility:hidden;"
                       class="cta-btn-submit">Update your edited blog post</button>
