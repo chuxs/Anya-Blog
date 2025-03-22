@@ -8,6 +8,7 @@ import { fileURLToPath } from "url";
 import { initializeApp } from "firebase/app";
 
 import { getDatabase, ref, set, onValue, child, get, remove  } from "firebase/database";
+import { title } from "process";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -35,7 +36,8 @@ const firebaseConfig = {
   const fireBaseapp = initializeApp(firebaseConfig);
   const database = getDatabase(fireBaseapp);
 
-let posts = [];
+// let posts = [];
+let initdata = "";
 
 
 app.set("view engine", "ejs");
@@ -51,7 +53,16 @@ app.listen(port, () => {
 });
 
 app.get("/", (req, res) => {
-    res.render("index.ejs", { req });
+
+
+    const displayBlog = ref(database, 'blogPosts/');
+    onValue(displayBlog, (snapshot) => {
+    initdata = snapshot.val();
+
+        res.render("index.ejs", {initdata});  
+
+     });
+    
 });
 
 app.post("/submit", (req, res) => {
@@ -66,7 +77,7 @@ app.post("/submit", (req, res) => {
         content: req.body["postContent"]
     });
 
-    res.render("index.ejs", { randomId: randomVar, title: req.body["postTitle"], content: req.body["postContent"], posts: posts });
+    res.render("index.ejs", { randomId: randomVar, title: req.body["postTitle"], content: req.body["postContent"], initdata});
 });
 
 app.post("/blog", (req, res) => {
