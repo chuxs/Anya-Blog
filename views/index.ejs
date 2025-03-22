@@ -31,22 +31,27 @@
                     <h3>Your Posts</h3>
                     <ul class="links">
 
-                        <% if (locals.posts){%>
-                       <!-- < if (req.session.blogs){%> -->
+                    <% let initialdata = ""; %> 
+                    <% const displayBlog = ref(database, 'blogPosts/' + postId);%>
+                    <% onValue(displayBlog, (snapshot) => {%>
+                    <% initialdata = snapshot.val();%>
+                        <% if (initialdata !== null){ %>
+                        <!--  if (locals.posts){%> -->
+                        <!-- < if (req.session.blogs){%> -->
 
-                            <% for(var i = 0; i < req.session.blogs.length; i++){ %>
+                            <% for(var i = 0; i < initialdata.length; i++){ %>
 
                                 <li class="listOfPosts listHorizontal">
 
-                                    <form action="/blog" method="POST">   
-                                    <input name="postId" type="hidden" value="<%= posts[i].randomId %>">
-                                    <input name="titleHolder" id="dataID" type="hidden" value="<%= posts[i].title %>">
-                                    <input name="contentHolder" id="dataID" type="hidden" value="<%= posts[i].content %>">
+                                    <form  action="/blog" method="POST">   
+                                    <input name="postId" type="hidden" value="<%= initialdata[i].contentID %>">
+                                    <input name="titleHolder" id="dataID" type="hidden" value="<%= initialdata[i].title %>">
+                                    <input name="contentHolder" id="dataID" type="hidden" value="<%= initialdata[i].content %>">
                                     <button type="submit" class="openpost"> <%= posts[i].title %> </button> 
                                     </form>
 
                                     <form action="/delete" method="POST">
-                                        <input name="postId" type="hidden" value="<%= posts[i].randomId %>">
+                                        <input name="postId" type="hidden" value="<%= initialdata[i].randomId %>">
                                         <button type="submit" class="editButton deleteColor">
                                             <i class="fa-regular fa-trash-can"></i>
                                         </button> 
@@ -58,6 +63,7 @@
                             <% } else { %>
                                 <li class="listOfPosts">You have no posts yet</li>
                         <% } %>
+                    <% }); %>
 
                     </ul>
                 </div>

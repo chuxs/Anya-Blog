@@ -3,42 +3,44 @@ import bodyParser from "body-parser";
 import {v4 as uuidv4} from "uuid";
 import path from "path";
 import { fileURLToPath } from "url";
-// import session from "express-session";
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+
+import { getDatabase, ref, set, onValue, child, get, remove  } from "firebase/database";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+
 
 const app = express();
 const port = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-// const router = express.Router();
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: "AIzaSyDmCS0xH4xDCQuVXzs8MIut1HbxBAjJ23Q",
+    databaseURL: "https://storageblog-8e926-default-rtdb.europe-west1.firebasedatabase.app",
+    authDomain: "storageblog-8e926.firebaseapp.com",
+    projectId: "storageblog-8e926",
+    storageBucket: "storageblog-8e926.firebasestorage.app",
+    messagingSenderId: "203630211611",
+    appId: "1:203630211611:web:3f289a5cefe1eb850cfebe",
+    measurementId: "G-TPMHRM4FPL"
+  };
+  
+  // Initialize Firebase
+  const fireBaseapp = initializeApp(firebaseConfig);
+  const database = getDatabase(fireBaseapp);
 
 let posts = [];
-// const randomSession = uuidv4();
+
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// Configure session middleware
-// app.use(
-//     session({
-//       secret: randomSession, // Replace with a strong secret key
-//       resave: false,
-//       saveUninitialized: true,
-//       cookie: { secure: false }, // Set secure: true if using HTTPS
-//     })
-//   );
-
-// Middleware to initialize blogs storage for each session
-// app.use((req, res, next) => {
-//     if (!req.session.blogs) {
-//       req.session.blogs = []; // Initialize blogs array for the session
-//     }
-//     next();
-// });
-
-// app.use((req, res, next) => {
-//     res.locals.req = req;
-//     next();
-//   });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -50,17 +52,19 @@ app.listen(port, () => {
 
 app.get("/", (req, res) => {
     res.render("index.ejs", { req });
-    // res.send("Welcome to Anya Blog");
 });
 
 app.post("/submit", (req, res) => {
 
-    // const randomVar = Math.floor(Math.random() * (40 - 12 + 1)) + 12; 
     const randomVar = uuidv4();
 
-    posts.push({randomId: randomVar, title: req.body["postTitle"], content: req.body["postContent"]});
+    // posts.push({randomId: randomVar, title: req.body["postTitle"], content: req.body["postContent"]});
 
-    // req.session.blogs.push({randomId: randomVar, title: req.body["postTitle"], content: req.body["postContent"]});
+    set(ref(database, 'blogPosts/' + randomVar), {
+        contentID: randomVar,
+        title: req.body["postTitle"],
+        content: req.body["postContent"]
+    });
 
     res.render("index.ejs", { randomId: randomVar, title: req.body["postTitle"], content: req.body["postContent"], posts: posts });
 });
@@ -68,34 +72,50 @@ app.post("/submit", (req, res) => {
 app.post("/blog", (req, res) => {
 
     const postId = req.body["postId"];
-    const post = posts.find(p => p.randomId === postId);
-    // const post = req.session.blogs.find(p => p.randomId === postId);
+    let data = "";
 
-    if (post) {
-        res.render("blogpost.ejs", { blogId:postId, blogtitle: post.title, blogcontent: post.content});
-    } else {
-        res.send("404 Error Not Found"); 
-    }
-    console.log(`${post, postId}`);
+    const displayBlog = ref(database, 'blogPosts/' + postId);
+    onValue(displayBlog, (snapshot) => {
+    data = snapshot.val();
+    //   updateStarCount(postElement, data);
+    console.log(data.content, data.title);
+    res.render("blogpost.ejs", { blogId:postId, blogtitle: data.title, blogcontent: data.content});
+    });
+
+    // const post = posts.find(p => p.randomId === postId);
+    // if (post) {
+    //     res.render("blogpost.ejs", { blogId:postId, blogtitle: post.title, blogcontent: post.content});
+    // } else {
+    //     res.send("404 Error Not Found"); 
+    // }
+    // console.log(`${post, postId}`);
 });
 
 app.post("/delete", (req, res) => {
     const postId = req.body["postId"];
-    const post = posts.findIndex(p => p.randomId === postId);
-    // const post = req.session.blogs.findIndex(p => p.randomId === postId);
-    if (post !== -1) {
 
-        posts.splice(post, 1);
-        // req.session.blogs.splice(post, 1);
+    function deletePost() {
+        const getPostDlt = ref(database, 'blogPosts/' + postId);
+        return remove(getPostDlt);
+    };
 
-        console.log(postId);
-        console.log(posts);
-        console.log(post);
+    deletePost();
+
+    // res.render("index.ejs", {posts: posts });
+
+    // const post = posts.findIndex(p => p.randomId === postId);
+    // if (post !== -1) {
+
+    //     posts.splice(post, 1);
+
+    //     console.log(postId);
+    //     console.log(posts);
+    //     console.log(post);
       
-        res.render("index.ejs", {posts: posts });
-    }else{
-        console.log("Post not found");
-    }
+    //     res.render("index.ejs", {posts: posts });
+    // }else{
+    //     console.log("Post not found");
+    // }
 
 });
 
@@ -103,14 +123,13 @@ app.post("/edit", (req, res)=>{
 
  const editID = req.body["idEdit"]; 
  const postIndex = posts.findIndex(p => p.randomId === editID);
-// const postIndex = req.session.blogs.findIndex(p => p.randomId === editID);
+
 
  if(postIndex !== -1){
     posts[postIndex].content = req.body["editContent"];
 
     res.render("blogpost.ejs", { blogId: editID, blogtitle: posts[postIndex].title, blogcontent: posts[postIndex].content});
-    // res.render("blogpost.ejs", { blogId: editID, blogtitle: req.session.blogs[postIndex].title, blogcontent: req.session.blogs[postIndex].content});
-
+    
     console.log(editID, posts[postIndex].title, posts[postIndex].content);
  }
  else{
