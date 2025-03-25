@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/50bf1045f2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style/styles.css">
+    <title>Anya Blog</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="#home"> <img src="images/anyablogcolour.png"> </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <h1>Welcome to Anya Blog, a space where your voice matters!</h1>
+            <p>Express yourself, connect with others, and share your ideas freely.</p>
+            <button class="cta-btn"><a href="#write">Get Started <i class="fa-solid fa-marker"></i> </a></button>
+        </section>
+
+        <section class="features" id="feat">
+            <div class="feature-grid">
+              
+                <div class="feature-card">
+                    <i class="fa-regular fa-newspaper"></i>
+                    <h3>Your Posts</h3>
+                    <ul class="links">
+
+                                <% for(var i = 0; i < dataList.length; i++){ %>
+    
+                                    <li class="listOfPosts listHorizontal">
+    
+                                        <form  action="/blog" method="POST">   
+                                        <input name="postId" type="hidden" value="<%= dataList[i].contentID %>">
+                                        <input name="titleHolder" id="dataID" type="hidden" value="<%= dataList[i].title %>">
+                                        <input name="contentHolder" id="dataID" type="hidden" value="<%= dataList[i].content %>">
+                                        <button type="submit" class="openpost"> <%= dataList[i].title %> </button> 
+                                        </form>
+    
+                                        <form action="/delete" method="POST">
+                                            <input name="postId" type="hidden" value="<%= dataList[i].contentID %>">
+                                            <button type="submit" class="editButton deleteColor">
+                                                <i class="fa-regular fa-trash-can"></i>
+                                            </button> 
+                                        </form>
+                                    </li>
+    
+                                <% }; %>
+
+                        <!-- <li class="listOfPosts">There's stuff in the data base</li> -->
+
+                    </ul>
+                </div>
+
+            </div>
+        </section>   
+
+        <section class="features" id="write">
+            <div class="feature-grid">
+                <form action="/submit" method="POST" class="blog-content">
+                   <input class="feature-card titleTextBox" placeholder="Title of your Post" name="postTitle" > </input>
+                   <textarea placeholder="Start Typing" class="feature-card textbox" name="postContent"></textarea>
+                   <button type="submit" class="cta-btn-submit">Submit</button>
+                </form>
+            </div>
+        </section>  
+
+    </main>
+</body>
+</html>

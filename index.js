@@ -37,15 +37,11 @@ const firebaseConfig = {
   const database = getDatabase(fireBaseapp);
 
 // let posts = [];
-let initdata = "";
 
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
-
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(express.static(path.join(__dirname, "Public")));
 
 app.listen(port, () => {
@@ -54,14 +50,33 @@ app.listen(port, () => {
 
 app.get("/", (req, res) => {
 
+    const postListRef = ref(database, 'blogPosts/');
 
-    const displayBlog = ref(database, 'blogPosts/');
-    onValue(displayBlog, (snapshot) => {
-    initdata = snapshot.val();
+    get(postListRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            const dataList = Object.values(snapshot.val()); // Convert object to list
+            console.log(dataList); // Array of post objects
+            res.render("indexList.ejs", { dataList });
+        } else {
+            res.render("index.ejs");  
+            console.log("No data available");
+        }
+    }).catch((error) => {
+        console.error(error);
+    });
 
-        res.render("index.ejs", {initdata});  
+//     const displayBlog = ref(database, 'blogPosts/');
+//     onValue(displayBlog, (snapshot) => {
+//     initdata = snapshot.val();
 
-     });
+//     if (initdata === null) {
+//         res.render("index.ejs");  
+
+//      }else{
+//         res.render("indexList.ejs", {initdata});
+//         console.log(initdata.content);
+//      }
+//    });
     
 });
 
@@ -70,14 +85,22 @@ app.post("/submit", (req, res) => {
     const randomVar = uuidv4();
 
     // posts.push({randomId: randomVar, title: req.body["postTitle"], content: req.body["postContent"]});
-
+    
     set(ref(database, 'blogPosts/' + randomVar), {
         contentID: randomVar,
         title: req.body["postTitle"],
         content: req.body["postContent"]
     });
 
-    res.render("index.ejs", { randomId: randomVar, title: req.body["postTitle"], content: req.body["postContent"], initdata});
+    const postListRef = ref(database, 'blogPosts/');
+
+    get(postListRef).then((snapshot) => {
+
+    const dataList = Object.values(snapshot.val());
+      res.render("indexList.ejs", { randomId: randomVar, title: req.body["postTitle"], content: req.body["postContent"], dataList });
+    }).catch((error) => {
+        console.error(error);
+    }); 
 });
 
 app.post("/blog", (req, res) => {
@@ -104,13 +127,47 @@ app.post("/blog", (req, res) => {
 
 app.post("/delete", (req, res) => {
     const postId = req.body["postId"];
+    // let deleteData = "";
+    const getPostDlt = ref(database, 'blogPosts/' + postId);
+    
+    remove(getPostDlt)
+      .then(() => {
+        const newValueAfterDlt = ref(database, 'blogPosts/');
+        onValue(newValueAfterDlt, (snapshot) => {
+            if (snapshot.exists()) {
+                const dataList = Object.values(snapshot.val()); // Convert object to list
+                console.log(dataList); // Array of post objects
+                res.render("indexList.ejs", { dataList });
+            } else {
+                res.render("index.ejs");  
+            }
+         });
+        
+     }).catch((error) => {
+       console.error("Error deleting node:", error);
+     });
 
-    function deletePost() {
-        const getPostDlt = ref(database, 'blogPosts/' + postId);
-        return remove(getPostDlt);
-    };
+    //  const getPostDlt = ref(database, 'blogPosts/' + postId);
+    // onValue(getPostDlt, (snapshot) => {
+    // deleteData = snapshot.val();
+    // console.log(deleteData);
+    // return remove(getPostDlt);
+    // });
 
-    deletePost();
+    // const afterDel = ref(database, 'blogPosts/');
+    // get(afterDel).then((snapshot) => {
+    //      if (snapshot.exists()) {
+    //         const dataList = Object.values(snapshot.val()); // Convert object to list
+    //         console.log(dataList); // Array of post objects
+    //         res.render("indexList.ejs", { dataList });
+    //      } else {
+    //         res.render("index.ejs");  
+    //         console.log("No data available");
+    //      }
+    // }).catch((error) => {
+    //         console.error(error);
+    // });
+
 
     // res.render("index.ejs", {posts: posts });
 
