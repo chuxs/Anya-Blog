@@ -95,7 +95,6 @@ app.post("/submit", (req, res) => {
     const postListRef = ref(database, 'blogPosts/');
 
     get(postListRef).then((snapshot) => {
-
     const dataList = Object.values(snapshot.val());
       res.render("indexList.ejs", { randomId: randomVar, title: req.body["postTitle"], content: req.body["postContent"], dataList });
     }).catch((error) => {
@@ -104,7 +103,6 @@ app.post("/submit", (req, res) => {
 });
 
 app.post("/blog", (req, res) => {
-
     const postId = req.body["postId"];
     let data = "";
 
@@ -127,27 +125,38 @@ app.post("/blog", (req, res) => {
 
 app.post("/delete", (req, res) => {
     const postId = req.body["postId"];
-    // let deleteData = "";
-    const getPostDlt = ref(database, 'blogPosts/' + postId);
+    let deleteData = "";
     
-    remove(getPostDlt)
-      .then(() => {
-        const newValueAfterDlt = ref(database, 'blogPosts/');
-        onValue(newValueAfterDlt, (snapshot) => {
-            if (snapshot.exists()) {
-                const dataList = Object.values(snapshot.val()); // Convert object to list
-                console.log(dataList); // Array of post objects
-                res.render("indexList.ejs", { dataList });
-            } else {
-                res.render("index.ejs");  
-            }
-         });
+    // const getPostDlt = ref(database, 'blogPosts/' + postId);
+    // remove(getPostDlt)
+    //   .then(() => {
+    //     const newValueAfterDlt = ref(database, 'blogPosts/');
+    //     onValue(newValueAfterDlt, (snapshot) => {
+    //         if (snapshot.exists()) {
+    //             const dataList = Object.values(snapshot.val()); // Convert object to list
+    //             console.log(dataList); // Array of post objects
+    //             res.render("indexList.ejs", { dataList });
+    //         } else {
+    //             res.render("index.ejs");  
+    //         }
+    //      });
         
-     }).catch((error) => {
-       console.error("Error deleting node:", error);
-     });
+    //  }).catch((error) => {
+    //    console.error("Error deleting node:", error);
+    //  });
 
-    //  const getPostDlt = ref(database, 'blogPosts/' + postId);
+    const postListRef = ref(database, 'blogPosts/' + postId);
+
+    get(postListRef).then((snapshot) => {
+    const dataList = Object.values(snapshot.val());
+      remove(dataList);
+      res.render("indexList.ejs", { dataList });
+    }).catch((error) => {
+        console.error(error);
+    }); 
+
+
+    // const getPostDlt = ref(database, 'blogPosts/' + postId);
     // onValue(getPostDlt, (snapshot) => {
     // deleteData = snapshot.val();
     // console.log(deleteData);
@@ -167,7 +176,6 @@ app.post("/delete", (req, res) => {
     // }).catch((error) => {
     //         console.error(error);
     // });
-
 
     // res.render("index.ejs", {posts: posts });
 
