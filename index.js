@@ -125,73 +125,24 @@ app.post("/blog", (req, res) => {
 
 app.post("/delete", (req, res) => {
     const postId = req.body["postId"];
-    let deleteData = "";
+    console.log(postId);
+    remove(ref(database, 'blogPosts/' + postId));
     
-    // const getPostDlt = ref(database, 'blogPosts/' + postId);
-    // remove(getPostDlt)
-    //   .then(() => {
-    //     const newValueAfterDlt = ref(database, 'blogPosts/');
-    //     onValue(newValueAfterDlt, (snapshot) => {
-    //         if (snapshot.exists()) {
-    //             const dataList = Object.values(snapshot.val()); // Convert object to list
-    //             console.log(dataList); // Array of post objects
-    //             res.render("indexList.ejs", { dataList });
-    //         } else {
-    //             res.render("index.ejs");  
-    //         }
-    //      });
-        
-    //  }).catch((error) => {
-    //    console.error("Error deleting node:", error);
-    //  });
-
-    const postListRef = ref(database, 'blogPosts/' + postId);
+    const postListRef = ref(database, 'blogPosts/');
 
     get(postListRef).then((snapshot) => {
-    const dataList = Object.values(snapshot.val());
-      remove(dataList);
-      res.render("indexList.ejs", { dataList });
+        if (snapshot.exists()) {
+            const dataList = Object.values(snapshot.val()); // Convert object to list
+            console.log(dataList); // Array of post objects
+            res.render("indexList.ejs", { dataList });
+        } else {
+            res.render("index.ejs");  
+            console.log("No data available");
+        }
     }).catch((error) => {
         console.error(error);
-    }); 
+    });
 
-
-    // const getPostDlt = ref(database, 'blogPosts/' + postId);
-    // onValue(getPostDlt, (snapshot) => {
-    // deleteData = snapshot.val();
-    // console.log(deleteData);
-    // return remove(getPostDlt);
-    // });
-
-    // const afterDel = ref(database, 'blogPosts/');
-    // get(afterDel).then((snapshot) => {
-    //      if (snapshot.exists()) {
-    //         const dataList = Object.values(snapshot.val()); // Convert object to list
-    //         console.log(dataList); // Array of post objects
-    //         res.render("indexList.ejs", { dataList });
-    //      } else {
-    //         res.render("index.ejs");  
-    //         console.log("No data available");
-    //      }
-    // }).catch((error) => {
-    //         console.error(error);
-    // });
-
-    // res.render("index.ejs", {posts: posts });
-
-    // const post = posts.findIndex(p => p.randomId === postId);
-    // if (post !== -1) {
-
-    //     posts.splice(post, 1);
-
-    //     console.log(postId);
-    //     console.log(posts);
-    //     console.log(post);
-      
-    //     res.render("index.ejs", {posts: posts });
-    // }else{
-    //     console.log("Post not found");
-    // }
 
 });
 
