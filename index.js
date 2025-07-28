@@ -125,24 +125,31 @@ app.post("/blog", (req, res) => {
 
 app.post("/delete", (req, res) => {
     const postId = req.body["postId"];
-    console.log(postId);
-    remove(ref(database, 'blogPosts/' + postId));
+    // console.log(postId);
+    // remove(ref(database, 'blogPosts/' + postId));
     
-    const postListRef = ref(database, 'blogPosts/');
+    // const postListRef = ref(database, 'blogPosts/');
 
-    get(postListRef).then((snapshot) => {
-        if (snapshot.exists()) {
-            const dataList = Object.values(snapshot.val()); // Convert object to list
-            console.log(dataList); // Array of post objects
-            res.render("indexList.ejs", { dataList });
-        } else {
-            res.render("index.ejs");  
-            console.log("No data available");
-        }
+    // get(postListRef).then((snapshot) => {
+    //     if (snapshot.exists()) {
+    //         const dataList = Object.values(snapshot.val()); // Convert object to list
+    //         console.log(dataList); // Array of post objects
+    //         res.render("indexList.ejs", { dataList });
+    //     } else {
+    //         res.render("index.ejs");  
+    //         console.log("No data available");
+    //     }
+    // }).catch((error) => {
+    //     console.error(error);
+    // });
+
+    const postRef = ref(database, 'blogPosts/' + postId);
+    remove(postRef).then(() => {
+        res.redirect("/");
     }).catch((error) => {
-        console.error(error);
+        console.error("Error removing post:", error);
+        res.status(500).send("Error deleting post");
     });
-
 
 });
 
