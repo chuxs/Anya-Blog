@@ -11,7 +11,7 @@
     <header>
         <nav>
             <div class="logo">
-                <a href="#home"> <img src="images/anyablogcolour.png"> </a>
+                <a href="#home"> <img src="images/anyablogcolour.png" alt="Anya Blog"> </a>
             </div>
         </nav>
     </header>
@@ -20,31 +20,26 @@
         <section id="home" class="hero">
             <h1>Welcome to Anya Blog, a space where your voice matters!</h1>
             <p>Express yourself, connect with others, and share your ideas freely.</p>
-            <button class="cta-btn"><a href="#write">Get Started <i class="fa-solid fa-marker"></i> </a></button>
+            <button class="cta-btn"><a href="#write">Start Writing <i class="fa-solid fa-pen-nib"></i></a></button>
         </section>
 
         <section class="features" id="feat">
             <div class="feature-grid">
-              
                 <div class="feature-card">
-                    <i class="fa-regular fa-newspaper"></i>
-                    <h3>Articles / Posts</h3>
+                    <h3><i class="fa-regular fa-newspaper"></i> Your Posts</h3>
                     <ul class="links">
-
                         <li class="listOfPosts">You have no posts yet</li>
-
                     </ul>
                 </div>
-
             </div>
         </section>   
 
         <section class="features" id="write">
             <div class="feature-grid">
                 <form action="/submit" method="POST" class="blog-content">
-                   <input class="feature-card titleTextBox" placeholder="Title of your Post" name="postTitle" > </input>
-                   <textarea placeholder="Start Typing" class="feature-card textbox" name="postContent"></textarea>
-                   <button type="submit" class="cta-btn-submit">Submit</button>
+                   <input class="feature-card titleTextBox" placeholder="Give your post a title..." name="postTitle">
+                   <textarea placeholder="What's on your mind?" class="feature-card textbox" name="postContent"></textarea>
+                   <button type="submit" class="cta-btn-submit">Publish Post</button>
                 </form>
             </div>
         </section>  

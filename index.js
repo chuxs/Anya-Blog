@@ -104,23 +104,20 @@ app.post("/submit", (req, res) => {
 
 app.post("/blog", (req, res) => {
     const postId = req.body["postId"];
-    let data = "";
 
     const displayBlog = ref(database, 'blogPosts/' + postId);
-    onValue(displayBlog, (snapshot) => {
-    data = snapshot.val();
-    //   updateStarCount(postElement, data);
-    console.log(data.content, data.title);
-    res.render("blogpost.ejs", { blogId:postId, blogtitle: data.title, blogcontent: data.content});
+    get(displayBlog).then((snapshot) => {
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            console.log(data.content, data.title);
+            res.render("blogpost.ejs", { blogId: postId, blogtitle: data.title, blogcontent: data.content });
+        } else {
+            res.redirect('/');
+        }
+    }).catch((error) => {
+        console.error(error);
+        res.redirect('/');
     });
-
-    // const post = posts.find(p => p.randomId === postId);
-    // if (post) {
-    //     res.render("blogpost.ejs", { blogId:postId, blogtitle: post.title, blogcontent: post.content});
-    // } else {
-    //     res.send("404 Error Not Found"); 
-    // }
-    // console.log(`${post, postId}`);
 });
 
 app.post("/delete", (req, res) => {
